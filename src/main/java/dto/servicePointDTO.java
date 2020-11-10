@@ -1,16 +1,20 @@
 package dto;
 
-public class servicePointDTO {
+public class ServicePointDTO {
     private String servicePointId;
     private String name;
     private String routeDistance;
-    private visitingAddressDTO visitingAddress;
+    private VisitingAddressDTO visitingAddress;
 
-    public servicePointDTO(String servicePointId, String name, String routeDistance, visitingAddressDTO visitingAddress) {
+    public ServicePointDTO(String servicePointId, String name, String routeDistance, VisitingAddressDTO visitingAddress) {
         this.servicePointId = servicePointId;
         this.name = name;
         this.routeDistance = routeDistance;
         this.visitingAddress = visitingAddress;
+    }
+    
+    public ServicePointDTO() {
+        
     }
 
     public String getServicePointId() {
@@ -37,11 +41,11 @@ public class servicePointDTO {
         this.routeDistance = routeDistance;
     }
 
-    public visitingAddressDTO getVisitingAddress() {
+    public VisitingAddressDTO getVisitingAddress() {
         return visitingAddress;
     }
 
-    public void setVisitingAddress(visitingAddressDTO visitingAddress) {
+    public void setVisitingAddress(VisitingAddressDTO visitingAddress) {
         this.visitingAddress = visitingAddress;
     }
 }

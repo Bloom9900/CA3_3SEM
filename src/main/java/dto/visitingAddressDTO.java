@@ -1,18 +1,22 @@
 package dto;
 
-public class visitingAddressDTO {
+public class VisitingAddressDTO {
     private String streetName;
     private String streetNumber;
     private String postalCode;
     private String city;
     private String countryCode;
 
-    public visitingAddressDTO(String streetName, String streetNumber, String postalCode, String city, String countryCode) {
+    public VisitingAddressDTO(String streetName, String streetNumber, String postalCode, String city, String countryCode) {
         this.streetName = streetName;
         this.streetNumber = streetNumber;
         this.postalCode = postalCode;
         this.city = city;
         this.countryCode = countryCode;
+    }
+    
+    public VisitingAddressDTO() {
+        
     }
 
     public String getStreetName() {

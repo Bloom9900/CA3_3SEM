@@ -3,6 +3,9 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dto.PostnordDTO;
+import dto.ServicePointDTO;
+import dto.TempDTO;
+import dto.VisitingAddressDTO;
 import utils.EMF_Creator;
 import facades.FacadeExample;
 import java.io.IOException;
@@ -33,7 +36,11 @@ public class PostnordResource {
     @Produces({MediaType.APPLICATION_JSON})
     public String getTest() throws IOException {
         String response = HttpUtils.fetchData("https://api2.postnord.com/rest/businesslocation/v1/servicepoint/findNearestByAddress.json?apikey=5d4a85e4661bc2c34e380d9ba5500b0c&countryCode=DK&agreementCountry=DK&city=Herlev&postalCode=2730&streetName=Kamdalen&streetNumber=21");
-        PostnordDTO postnordDTO = gson.fromJson(response, PostnordDTO.class);
+        /*VisitingAddressDTO visitAddress = gson.fromJson(response, VisitingAddressDTO.class);
+        ServicePointDTO servicePoint = gson.fromJson(response, ServicePointDTO.class);*/
+        
+        
+        TempDTO postnordDTO = gson.fromJson(response, TempDTO.class);
         return gson.toJson(postnordDTO);
     }
 }
