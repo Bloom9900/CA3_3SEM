@@ -1,33 +1,17 @@
 package dto;
 
-import java.util.ArrayList;
-
 public class PostnordDTO {
-    private PostnordDTO servicePointInformationResponse;
-    private String customerSupportPhoneNo;
-    private ServicePointDTO servicePoints;
+    private Object servicePointInformationResponse;
 
-    public PostnordDTO(String customerSupportPhoneNo, ServicePointDTO servicePoints) {
-        this.customerSupportPhoneNo = customerSupportPhoneNo;
-        this.servicePoints = servicePoints;
-    }
-    
-    public PostnordDTO() {
+    public PostnordDTO(Object servicePointInformationResponse) {
+        this.servicePointInformationResponse = servicePointInformationResponse;
     }
 
-    public String getCustomerSupportPhoneNo() {
-        return customerSupportPhoneNo;
+    public Object getServicePointInformationResponse() {
+        return servicePointInformationResponse;
     }
 
-    public void setCustomerSupportPhoneNo(String customerSupportPhoneNo) {
-        this.customerSupportPhoneNo = customerSupportPhoneNo;
-    }
-
-    public ServicePointDTO getServicePoints() {
-        return servicePoints;
-    }
-
-    public void setServicePoints(ServicePointDTO servicePoints) {
-        this.servicePoints = servicePoints;
+    public void setServicePointInformationResponse(Object servicePointInformationResponse) {
+        this.servicePointInformationResponse = servicePointInformationResponse;
     }
 }
