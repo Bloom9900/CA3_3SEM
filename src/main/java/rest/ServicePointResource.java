@@ -45,7 +45,7 @@ public class ServicePointResource {
     }
     
     @Path("servicepoints")
-    @POST
+    @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String getTest(String address) throws IOException, InterruptedException, ExecutionException, TimeoutException {
         AdresseDTO adresse = gson.fromJson(address, AdresseDTO.class);
@@ -53,11 +53,11 @@ public class ServicePointResource {
     }
     
     public static String responseFromExternalServersParallel(ExecutorService threadPool, AdresseDTO adresse) throws InterruptedException, ExecutionException, TimeoutException {
-        
-        String city = adresse.getCity();
-        String postalCode = adresse.getPostalCode();
-        String streetName = adresse.getStreetName();
-        String streetNumber = adresse.getStreetNumber();
+        // String variable = adresse.getVariable();
+        String city = "Herlev";
+        String postalCode = "2730";
+        String streetName = "Kamdalen";
+        String streetNumber = "21";
         
         Callable<PostnordDTO> postnordTask = new Callable<PostnordDTO>() {
             @Override
@@ -80,8 +80,8 @@ public class ServicePointResource {
         Future<PostnordDTO> futurePostnord = threadPool.submit(postnordTask);
         Future<WeatherDTO> futureWeather = threadPool.submit(weatherTask);
         
-        PostnordDTO postnord = futurePostnord.get(2, TimeUnit.SECONDS);
-        WeatherDTO weather = futureWeather.get(2, TimeUnit.SECONDS);
+        PostnordDTO postnord = futurePostnord.get(3, TimeUnit.SECONDS);
+        WeatherDTO weather = futureWeather.get(3, TimeUnit.SECONDS);
         
         ServicePointsDTO combinedDTO = new ServicePointsDTO(postnord, weather);
         String combinedJSON = gson.toJson(combinedDTO);
