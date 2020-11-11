@@ -23,6 +23,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import utils.Helper;
 import utils.HttpUtils;
 
 //Todo Remove or change relevant parts before ACTUAL use
@@ -38,6 +39,7 @@ public class ServicePointResource {
     private static final String weatherURL = "https://api.weatherbit.io/v2.0/current";
     private static final String weatherApiKey = "cdf47dcc554d4589880067a2ea47c310";
     private static final ExecutorService es = Executors.newCachedThreadPool();
+    private static Helper helper = new Helper();
     
     @GET
     @Produces({MediaType.APPLICATION_JSON})
@@ -64,8 +66,9 @@ public class ServicePointResource {
         Callable<PostnordDTO> postnordTask = new Callable<PostnordDTO>() {
             @Override
             public PostnordDTO call() throws IOException {
-                String postnord = HttpUtils.fetchData(postnordURL + "findNearestByAddress.json?apikey=" + postnordApiKey + "&countryCode=DK&agreementCountry=DK&city=" + city
-                + "&postalCode=" + postalCode + "&streetName=" + streetName + "&streetNumber=" + streetNumber);
+                String fullURL = (postnordURL + "findNearestByAddress.json?apikey=" + postnordApiKey + "&countryCode=DK&agreementCountry=DK&city=" + helper.removeSpaces(city)
+                + "&postalCode=" + helper.removeSpaces(postalCode) + "&streetName=" + helper.removeSpaces(streetName) + "&streetNumber=" + helper.removeSpaces(streetNumber));
+                String postnord = HttpUtils.fetchData(fullURL);
                 PostnordDTO postnordDTO = gson.fromJson(postnord, PostnordDTO.class);
                 return postnordDTO;
             }
@@ -89,5 +92,6 @@ public class ServicePointResource {
         String combinedJSON = gson.toJson(combinedDTO);
         return combinedJSON;
     }
+  
     
 }
