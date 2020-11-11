@@ -17,6 +17,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import javax.persistence.EntityManagerFactory;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -45,8 +46,9 @@ public class ServicePointResource {
     }
     
     @Path("servicepoints")
-    @GET
+    @POST
     @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
     public String getTest(String address) throws IOException, InterruptedException, ExecutionException, TimeoutException {
         AdresseDTO adresse = gson.fromJson(address, AdresseDTO.class);
         return responseFromExternalServersParallel(es, adresse);
@@ -54,10 +56,10 @@ public class ServicePointResource {
     
     public static String responseFromExternalServersParallel(ExecutorService threadPool, AdresseDTO adresse) throws InterruptedException, ExecutionException, TimeoutException {
         // String variable = adresse.getVariable();
-        String city = "Herlev";
-        String postalCode = "2730";
-        String streetName = "Kamdalen";
-        String streetNumber = "21";
+        String city = adresse.getCity();
+        String postalCode = adresse.getPostalCode();
+        String streetName = adresse.getStreetName();
+        String streetNumber = adresse.getStreetNumber();
         
         Callable<PostnordDTO> postnordTask = new Callable<PostnordDTO>() {
             @Override
@@ -87,4 +89,5 @@ public class ServicePointResource {
         String combinedJSON = gson.toJson(combinedDTO);
         return combinedJSON;
     }
+    
 }
