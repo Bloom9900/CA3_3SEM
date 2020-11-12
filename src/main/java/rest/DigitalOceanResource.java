@@ -33,7 +33,7 @@ public class DigitalOceanResource {
 
     private static final FacadeExample facade = FacadeExample.getFacadeExample(EMF);
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private static final String digitalOceanURL = "https://api.digitalocean.com/v2/actions";
+    private static final String digitalOceanURL = "https://api.digitalocean.com/v2/";
     private static final ExecutorService es = Executors.newCachedThreadPool();
     private static Helper helper = new Helper();
 
@@ -49,8 +49,8 @@ public class DigitalOceanResource {
     @Consumes({MediaType.APPLICATION_JSON})
     @RolesAllowed({"admin"})
     public String getDigitalOceanInfo(String digitalOceanJSON) throws IOException {
-        
-        String digitalOcean = HttpUtils.fetchData(digitalOceanURL);
+        String URL = digitalOceanURL + "droplets";
+        String digitalOcean = HttpUtils.fetchData(URL);
         DigitalOceanDTO digitalOceanDTO = gson.fromJson(digitalOcean, DigitalOceanDTO.class);
         return gson.toJson(digitalOceanDTO);
     }

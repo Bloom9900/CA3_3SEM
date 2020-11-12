@@ -2,14 +2,14 @@
 package dto;
 
 public class DigitalOceanDTO {
-    private Object actions;
+    private Object droplets;
 
-    public DigitalOceanDTO(Object actions) {
-        this.actions = actions;
+    public DigitalOceanDTO(Object droplets) {
+        this.droplets = droplets;
     }
 
-    public Object getActions() {
-        return actions;
+    public Object getDroplets() {
+        return droplets;
     }
     
     
