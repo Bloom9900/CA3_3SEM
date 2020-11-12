@@ -48,7 +48,7 @@ public class DigitalOceanResource {
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
     @RolesAllowed({"admin"})
-    public String getDigitalOceanInfo(String digitalOceanJSON) throws IOException {
+    public String getDigitalOceanInfo() throws IOException {
         String URL = digitalOceanURL + "droplets";
         String digitalOcean = HttpUtils.fetchData(URL);
         DigitalOceanDTO digitalOceanDTO = gson.fromJson(digitalOcean, DigitalOceanDTO.class);
