@@ -16,6 +16,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -51,6 +52,7 @@ public class ServicePointResource {
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
+    @RolesAllowed({"user", "admin"})
     public String getTest(String address) throws IOException, InterruptedException, ExecutionException, TimeoutException {
         AdresseDTO adresse = gson.fromJson(address, AdresseDTO.class);
         return responseFromExternalServersParallel(es, adresse);
