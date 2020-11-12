@@ -6,6 +6,7 @@ import dto.AdresseDTO;
 import dto.MovieDTO;
 import dto.PostnordDTO;
 import dto.ServicePointsDTO;
+import dto.TempDTO;
 import dto.WeatherDTO;
 import utils.EMF_Creator;
 import facades.FacadeExample;
@@ -53,9 +54,10 @@ public class MovieResource {
     @Consumes({MediaType.APPLICATION_JSON})
     @RolesAllowed({"user"})
     public String getMovieReview(String movieJSON) throws IOException {
-        MovieDTO movieDTO = gson.fromJson(movieJSON, MovieDTO.class);
-        String searchKeyword = movieDTO.getQuery();
-        String movie = HttpUtils.fetchData(movieURL + "?query=" + searchKeyword + "&api-key=" + movieApiKey);
-        return gson.toJson(movie);
+        TempDTO temp = gson.fromJson(movieJSON, TempDTO.class);
+        String movie = HttpUtils.fetchData(movieURL + "?query=" + temp.getQuery() + "&api-key=" + movieApiKey);
+        MovieDTO movieDTO = gson.fromJson(movie, MovieDTO.class);
+        System.out.println("TEST" + movieJSON);
+        return gson.toJson(movieDTO);
     }
 }

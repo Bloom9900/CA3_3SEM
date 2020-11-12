@@ -1,28 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package dto;
 
-/**
- *
- * @author Danie
- */
 public class MovieDTO {
     
-    private String query;
+    private Object results;
 
-    public MovieDTO(String query) {
-        this.query = query;
+    public MovieDTO(Object movie) {
+        this.results = movie;
     }
 
-    public String getQuery() {
-        return query;
+    public Object getMovie() {
+        return results;
     }
 
-    public void setQuery(String query) {
-        this.query = query;
+    public void setMovie(Object movie) {
+        this.results = movie;
     }
+
+    
     
 }

@@ -1,11 +1,14 @@
 package rest;
 
+import dto.AdresseDTO;
+import dto.PostnordDTO;
 import entities.RenameMe;
 import utils.EMF_Creator;
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.given;
 import io.restassured.parsing.Parser;
 import java.net.URI;
+import java.util.concurrent.Callable;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.core.UriBuilder;
@@ -13,6 +16,7 @@ import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -27,6 +31,7 @@ public class ServicePointResourceTest {
     private static final int SERVER_PORT = 7777;
     private static final String SERVER_URL = "http://localhost/api";
     private static RenameMe r1, r2;
+    private static AdresseDTO addressDTO = new AdresseDTO("Frederiksberg", "2000", "Smallegade", "1");
 
     static final URI BASE_URI = UriBuilder.fromUri(SERVER_URL).port(SERVER_PORT).build();
     private static HttpServer httpServer;
@@ -64,14 +69,12 @@ public class ServicePointResourceTest {
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
-        r1 = new RenameMe("Some txt", "More text");
-        r2 = new RenameMe("aaa", "bbb");
         try {
-            em.getTransaction().begin();
+            /*em.getTransaction().begin();
             em.createNamedQuery("RenameMe.deleteAllRows").executeUpdate();
             em.persist(r1);
             em.persist(r2);
-            em.getTransaction().commit();
+            em.getTransaction().commit();*/
         } finally {
             em.close();
         }
@@ -101,5 +104,12 @@ public class ServicePointResourceTest {
                 .assertThat()
                 .statusCode(HttpStatus.OK_200.getStatusCode())
                 .body("count", equalTo(2));
+    }
+    
+    @Disabled
+    @Test
+    public String testResponseFromExternalServersParallel() {
+        
+        return "todo";
     }
 }
