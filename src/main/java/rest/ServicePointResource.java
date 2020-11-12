@@ -26,6 +26,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import utils.Helper;
 import utils.HttpUtils;
+import utils.Keys;
 
 //Todo Remove or change relevant parts before ACTUAL use
 @Path("servicepoints")
@@ -36,9 +37,7 @@ public class ServicePointResource {
     private static final FacadeExample facade =  FacadeExample.getFacadeExample(EMF);
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final String postnordURL = "https://api2.postnord.com/rest/businesslocation/v1/servicepoint/";
-    private static final String postnordApiKey = "5d4a85e4661bc2c34e380d9ba5500b0c";
     private static final String weatherURL = "https://api.weatherbit.io/v2.0/current";
-    private static final String weatherApiKey = "cdf47dcc554d4589880067a2ea47c310";
     private static final ExecutorService es = Executors.newCachedThreadPool();
     private static Helper helper = new Helper();
     
@@ -68,7 +67,7 @@ public class ServicePointResource {
         Callable<PostnordDTO> postnordTask = new Callable<PostnordDTO>() {
             @Override
             public PostnordDTO call() throws IOException {
-                String fullURL = (postnordURL + "findNearestByAddress.json?apikey=" + postnordApiKey + "&countryCode=DK&agreementCountry=DK&city=" + helper.removeSpaces(city)
+                String fullURL = (postnordURL + "findNearestByAddress.json?apikey=" + Keys.postNordKey + "&countryCode=DK&agreementCountry=DK&city=" + helper.removeSpaces(city)
                 + "&postalCode=" + helper.removeSpaces(postalCode) + "&streetName=" + helper.removeSpaces(streetName) + "&streetNumber=" + helper.removeSpaces(streetNumber));
                 String postnord = HttpUtils.fetchData(fullURL);
                 PostnordDTO postnordDTO = gson.fromJson(postnord, PostnordDTO.class);
@@ -78,7 +77,7 @@ public class ServicePointResource {
         Callable<WeatherDTO> weatherTask = new Callable<WeatherDTO>() {
             @Override
             public WeatherDTO call() throws IOException {
-                String weather = HttpUtils.fetchData(weatherURL + "?key=" + weatherApiKey + "&lang=da&postal_code=" + postalCode + "&country=DK");
+                String weather = HttpUtils.fetchData(weatherURL + "?key=" + Keys.weatherKey + "&lang=da&postal_code=" + postalCode + "&country=DK");
                 WeatherDTO weatherDTO = gson.fromJson(weather, WeatherDTO.class);
                 return weatherDTO;
             }

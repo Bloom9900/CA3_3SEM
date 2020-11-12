@@ -2,22 +2,13 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import dto.AdresseDTO;
 import dto.MovieDTO;
-import dto.PostnordDTO;
-import dto.ServicePointsDTO;
-import dto.TempDTO;
-import dto.WeatherDTO;
+import dto.MoviesDTO;
 import utils.EMF_Creator;
 import facades.FacadeExample;
 import java.io.IOException;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.Consumes;
@@ -28,6 +19,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import utils.Helper;
 import utils.HttpUtils;
+import utils.Keys;
 
 //Todo Remove or change relevant parts before ACTUAL use
 @Path("movie")
@@ -38,7 +30,6 @@ public class MovieResource {
     private static final FacadeExample facade =  FacadeExample.getFacadeExample(EMF);
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final String movieURL = "https://api.nytimes.com/svc/movies/v2/reviews/search.json";
-    private static final String movieApiKey = "liNcU16apDyGHV0yurSqPUMuAzQnyj98";
     private static final ExecutorService es = Executors.newCachedThreadPool();
     private static Helper helper = new Helper();
     
@@ -54,8 +45,8 @@ public class MovieResource {
     @Consumes({MediaType.APPLICATION_JSON})
     @RolesAllowed({"user"})
     public String getMovieReview(String movieJSON) throws IOException {
-        TempDTO temp = gson.fromJson(movieJSON, TempDTO.class);
-        String movie = HttpUtils.fetchData(movieURL + "?query=" + temp.getQuery() + "&api-key=" + movieApiKey);
+        MoviesDTO temp = gson.fromJson(movieJSON, MoviesDTO.class);
+        String movie = HttpUtils.fetchData(movieURL + "?query=" + temp.getQuery() + "&api-key=" + Keys.movieKey);
         MovieDTO movieDTO = gson.fromJson(movie, MovieDTO.class);
         System.out.println("TEST" + movieJSON);
         return gson.toJson(movieDTO);

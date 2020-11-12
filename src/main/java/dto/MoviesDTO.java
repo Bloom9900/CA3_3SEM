@@ -1,11 +1,11 @@
 
 package dto;
 
-public class TempDTO {
+public class MoviesDTO {
     
     private String query;
 
-    public TempDTO(String query) {
+    public MoviesDTO(String query) {
         this.query = query;
     }
 

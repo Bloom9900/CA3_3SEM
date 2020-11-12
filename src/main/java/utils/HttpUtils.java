@@ -6,6 +6,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
+
 public class HttpUtils {
 
     public static String fetchData(String _url) throws MalformedURLException, IOException {
@@ -16,7 +17,11 @@ public class HttpUtils {
         //con.setRequestProperty("Accept", "application/json");
         con.setRequestProperty("User-Agent", "server");
         con.setRequestProperty("Content-Type", "application/json");
-
+        
+        if (url.toString().contains("api.digitalocean")) {
+            con.setRequestProperty("Authorization","Bearer "+ Keys.digitalOceanBearer);
+        }
+        
         Scanner scan = new Scanner(con.getInputStream());
         String jsonStr = null;
         if (scan.hasNext()) {
