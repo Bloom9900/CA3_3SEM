@@ -50,7 +50,7 @@ public class ServicePointResource {
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    public String getTest(String address) throws IOException, InterruptedException, ExecutionException, TimeoutException {
+    public String getServicePointAndWeather(String address) throws IOException, InterruptedException, ExecutionException, TimeoutException {
         AddressRequestDTO adresse = gson.fromJson(address, AddressRequestDTO.class);
         return responseFromExternalServersParallel(es, adresse);
     }

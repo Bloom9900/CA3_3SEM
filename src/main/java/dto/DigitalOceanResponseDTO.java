@@ -11,6 +11,4 @@ public class DigitalOceanResponseDTO {
     public Object getDroplets() {
         return droplets;
     }
-    
-    
 }

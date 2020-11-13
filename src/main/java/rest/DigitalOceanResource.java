@@ -1,15 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dto.DigitalOceanResponseDTO;
-import dto.MovieResponseDTO;
-import dto.MovieRequestDTO;
 import facades.FacadeExample;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -18,7 +11,6 @@ import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;

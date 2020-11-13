@@ -11,7 +11,5 @@ public class MovieRequestDTO {
 
     public String getQuery() {
         return query;
-    }
-    
-    
+    } 
 }
