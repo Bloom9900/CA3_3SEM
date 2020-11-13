@@ -29,9 +29,9 @@ Therefore, the class needs to be created manually, if not already done.
 - We have a class where we store all of our keys, which we consider as "secret", and therefore do not want to push on Github. 
 The class is located in utils.Keys.java, and we have put a .gitignore to ensure it does not get pushed up.
 
--- Our endpoint links with role restrictions too:
-responseFromExternalServersParallel(): api/servicepoints/servicepoints
-getMovieReview(): api/movie/review (user role ONLY)
-getDigitalOceanInfo(): api/digitalocean/admin (admin role only)
-getFromUser(): api/info/user (user role only)
-getFromAdmin(): api/info/admin (admin role only)
+Our endpoint links with role restrictions too:
+- responseFromExternalServersParallel(): api/servicepoints/servicepoints
+- getMovieReview(): api/movie/review (user role ONLY)
+- getDigitalOceanInfo(): api/digitalocean/admin (admin role only)
+- getFromUser(): api/info/user (user role only)
+- getFromAdmin(): api/info/admin (admin role only)
