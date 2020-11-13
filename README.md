@@ -23,7 +23,7 @@ When clonning the project, you must modify the endpoints accordingly, such as ch
 The code is there for protection, to set a secret base64 encoding for the signature of the token.
 This ensures that our token does not change signature upon development, meaning we don't have to switch the token every X time we deploy/run the project, but should not be used for production.
 
-The Java class, SetupTestUsers is specified as .gitignore, to makes ure we don't push the users and passwords up to Github. 
+- The Java class, SetupTestUsers is specified as .gitignore, to makes ure we don't push the users and passwords up to Github. 
 Therefore, the class needs to be created manually, if not already done. 
 
 - We have a class where we store all of our keys, which we consider as "secret", and therefore do not want to push on Github. 
