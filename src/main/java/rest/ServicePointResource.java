@@ -2,10 +2,10 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import dto.AdresseDTO;
-import dto.PostnordDTO;
-import dto.ServicePointsDTO;
-import dto.WeatherDTO;
+import dto.AddressRequestDTO;
+import dto.PostnordResponseDTO;
+import dto.ServicepointsResponseDTO;
+import dto.WeatherResponseDTO;
 import utils.EMF_Creator;
 import facades.FacadeExample;
 import java.io.IOException;
@@ -52,43 +52,43 @@ public class ServicePointResource {
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
     public String getTest(String address) throws IOException, InterruptedException, ExecutionException, TimeoutException {
-        AdresseDTO adresse = gson.fromJson(address, AdresseDTO.class);
+        AddressRequestDTO adresse = gson.fromJson(address, AddressRequestDTO.class);
         return responseFromExternalServersParallel(es, adresse);
     }
     
-    public static String responseFromExternalServersParallel(ExecutorService threadPool, AdresseDTO adresse) throws InterruptedException, ExecutionException, TimeoutException {
+    public static String responseFromExternalServersParallel(ExecutorService threadPool, AddressRequestDTO adresse) throws InterruptedException, ExecutionException, TimeoutException {
         // String variable = adresse.getVariable();
         String city = adresse.getCity();
         String postalCode = adresse.getPostalCode();
         String streetName = adresse.getStreetName();
         String streetNumber = adresse.getStreetNumber();
         
-        Callable<PostnordDTO> postnordTask = new Callable<PostnordDTO>() {
+        Callable<PostnordResponseDTO> postnordTask = new Callable<PostnordResponseDTO>() {
             @Override
-            public PostnordDTO call() throws IOException {
+            public PostnordResponseDTO call() throws IOException {
                 String fullURL = (postnordURL + "findNearestByAddress.json?apikey=" + Keys.postNordKey + "&countryCode=DK&agreementCountry=DK&city=" + helper.removeSpaces(city)
                 + "&postalCode=" + helper.removeSpaces(postalCode) + "&streetName=" + helper.removeSpaces(streetName) + "&streetNumber=" + helper.removeSpaces(streetNumber));
                 String postnord = HttpUtils.fetchData(fullURL);
-                PostnordDTO postnordDTO = gson.fromJson(postnord, PostnordDTO.class);
+                PostnordResponseDTO postnordDTO = gson.fromJson(postnord, PostnordResponseDTO.class);
                 return postnordDTO;
             }
         };
-        Callable<WeatherDTO> weatherTask = new Callable<WeatherDTO>() {
+        Callable<WeatherResponseDTO> weatherTask = new Callable<WeatherResponseDTO>() {
             @Override
-            public WeatherDTO call() throws IOException {
+            public WeatherResponseDTO call() throws IOException {
                 String weather = HttpUtils.fetchData(weatherURL + "?key=" + Keys.weatherKey + "&lang=da&postal_code=" + postalCode + "&country=DK");
-                WeatherDTO weatherDTO = gson.fromJson(weather, WeatherDTO.class);
+                WeatherResponseDTO weatherDTO = gson.fromJson(weather, WeatherResponseDTO.class);
                 return weatherDTO;
             }
         };
         
-        Future<PostnordDTO> futurePostnord = threadPool.submit(postnordTask);
-        Future<WeatherDTO> futureWeather = threadPool.submit(weatherTask);
+        Future<PostnordResponseDTO> futurePostnord = threadPool.submit(postnordTask);
+        Future<WeatherResponseDTO> futureWeather = threadPool.submit(weatherTask);
         
-        PostnordDTO postnord = futurePostnord.get(3, TimeUnit.SECONDS);
-        WeatherDTO weather = futureWeather.get(3, TimeUnit.SECONDS);
+        PostnordResponseDTO postnord = futurePostnord.get(3, TimeUnit.SECONDS);
+        WeatherResponseDTO weather = futureWeather.get(3, TimeUnit.SECONDS);
         
-        ServicePointsDTO combinedDTO = new ServicePointsDTO(postnord, weather);
+        ServicepointsResponseDTO combinedDTO = new ServicepointsResponseDTO(postnord, weather);
         String combinedJSON = gson.toJson(combinedDTO);
         
         return combinedJSON;

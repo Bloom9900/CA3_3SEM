@@ -7,9 +7,9 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import dto.DigitalOceanDTO;
-import dto.MovieDTO;
-import dto.MoviesDTO;
+import dto.DigitalOceanResponseDTO;
+import dto.MovieResponseDTO;
+import dto.MovieRequestDTO;
 import facades.FacadeExample;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -51,7 +51,7 @@ public class DigitalOceanResource {
     public String getDigitalOceanInfo() throws IOException {
         String URL = digitalOceanURL + "droplets";
         String digitalOcean = HttpUtils.fetchData(URL);
-        DigitalOceanDTO digitalOceanDTO = gson.fromJson(digitalOcean, DigitalOceanDTO.class);
+        DigitalOceanResponseDTO digitalOceanDTO = gson.fromJson(digitalOcean, DigitalOceanResponseDTO.class);
         return gson.toJson(digitalOceanDTO);
     }
 }

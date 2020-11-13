@@ -1,9 +1,9 @@
 package dto;
 
-public class PostnordDTO {
+public class PostnordResponseDTO {
     private Object servicePointInformationResponse;
 
-    public PostnordDTO(Object servicePointInformationResponse) {
+    public PostnordResponseDTO(Object servicePointInformationResponse) {
         this.servicePointInformationResponse = servicePointInformationResponse;
     }
 

@@ -2,8 +2,8 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import dto.MovieDTO;
-import dto.MoviesDTO;
+import dto.MovieResponseDTO;
+import dto.MovieRequestDTO;
 import utils.EMF_Creator;
 import facades.FacadeExample;
 import java.io.IOException;
@@ -45,9 +45,9 @@ public class MovieResource {
     @Consumes({MediaType.APPLICATION_JSON})
     @RolesAllowed({"user"})
     public String getMovieReview(String movieJSON) throws IOException {
-        MoviesDTO temp = gson.fromJson(movieJSON, MoviesDTO.class);
+        MovieRequestDTO temp = gson.fromJson(movieJSON, MovieRequestDTO.class);
         String movie = HttpUtils.fetchData(movieURL + "?query=" + temp.getQuery() + "&api-key=" + Keys.movieKey);
-        MovieDTO movieDTO = gson.fromJson(movie, MovieDTO.class);
+        MovieResponseDTO movieDTO = gson.fromJson(movie, MovieResponseDTO.class);
         System.out.println("TEST" + movieJSON);
         return gson.toJson(movieDTO);
     }

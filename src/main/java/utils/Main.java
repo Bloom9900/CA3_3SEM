@@ -2,7 +2,7 @@ package utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import dto.WeatherDTO;
+import dto.WeatherResponseDTO;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -26,7 +26,7 @@ public class Main {
 //        String URL = "https://api.weatherbit.io/v2.0/current?key=cdf47dcc554d4589880067a2ea47c310&lang=da&postal_code=2730&country=DK";
 //        String response = HttpUtils.fetchData(URL);
         
-//        WeatherDTO weather = gson.fromJson(response, WeatherDTO.class);
+//        WeatherResponseDTO weather = gson.fromJson(response, WeatherResponseDTO.class);
 //        System.out.println(weather.getData());
     }
 }

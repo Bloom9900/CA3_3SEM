@@ -1,8 +1,8 @@
 package rest;
 
-import dto.AdresseDTO;
-import dto.PostnordDTO;
-import dto.WeatherDTO;
+import dto.AddressRequestDTO;
+import dto.PostnordResponseDTO;
+import dto.WeatherResponseDTO;
 import utils.EMF_Creator;
 import rest.ServicePointResource;
 import io.restassured.RestAssured;
@@ -38,7 +38,7 @@ public class ServicePointResourceTest
 
     private static final int SERVER_PORT = 7777;
     private static final String SERVER_URL = "http://localhost/api";
-    private static AdresseDTO addressDTO = new AdresseDTO("Herlev", "2730", "Kamdalen", "21");
+    private static AddressRequestDTO addressDTO = new AddressRequestDTO("Herlev", "2730", "Kamdalen", "21");
     private static final ExecutorService es = Executors.newCachedThreadPool();
 
     static final URI BASE_URI = UriBuilder.fromUri(SERVER_URL).port(SERVER_PORT).build();

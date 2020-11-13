@@ -1,8 +1,8 @@
 
 package rest;
 
-import dto.AdresseDTO;
-import dto.MoviesDTO;
+import dto.AddressRequestDTO;
+import dto.MovieRequestDTO;
 import entities.Role;
 import entities.User;
 import io.restassured.RestAssured;
@@ -29,7 +29,7 @@ public class MovieResourceTest
 {
     private static final int SERVER_PORT = 7777;
     private static final String SERVER_URL = "http://localhost/api";
-    private static MoviesDTO moviesDTO = new MoviesDTO("forrest gump");
+    private static MovieRequestDTO moviesDTO = new MovieRequestDTO("forrest gump");
     private static final ExecutorService es = Executors.newCachedThreadPool();
 
     static final URI BASE_URI = UriBuilder.fromUri(SERVER_URL).port(SERVER_PORT).build();

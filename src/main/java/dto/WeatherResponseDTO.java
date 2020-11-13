@@ -2,10 +2,10 @@ package dto;
 
 import java.util.ArrayList;
 
-public class WeatherDTO {
+public class WeatherResponseDTO {
     private Object data;
 
-    public WeatherDTO(Object data) {
+    public WeatherResponseDTO(Object data) {
         this.data = data;
     }
 

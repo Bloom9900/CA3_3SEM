@@ -1,12 +1,12 @@
 package dto;
 
-public class AdresseDTO {
+public class AddressRequestDTO {
     private String city;
     private String postalCode;
     private String streetName;
     private String streetNumber;
 
-    public AdresseDTO(String city, String postalCode, String streetName, String streetNumber) {
+    public AddressRequestDTO(String city, String postalCode, String streetName, String streetNumber) {
         this.city = city;
         this.postalCode = postalCode;
         this.streetName = streetName;

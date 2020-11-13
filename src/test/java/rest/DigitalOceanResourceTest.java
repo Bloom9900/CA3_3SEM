@@ -1,7 +1,7 @@
 
 package rest;
 
-import dto.MoviesDTO;
+import dto.MovieRequestDTO;
 import entities.Role;
 import entities.User;
 import io.restassured.RestAssured;

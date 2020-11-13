@@ -1,10 +1,10 @@
 
 package dto;
 
-public class DigitalOceanDTO {
+public class DigitalOceanResponseDTO {
     private Object droplets;
 
-    public DigitalOceanDTO(Object droplets) {
+    public DigitalOceanResponseDTO(Object droplets) {
         this.droplets = droplets;
     }
 

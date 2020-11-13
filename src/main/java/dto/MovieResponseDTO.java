@@ -1,11 +1,11 @@
 
 package dto;
 
-public class MovieDTO {
+public class MovieResponseDTO {
     
     private Object results;
 
-    public MovieDTO(Object movie) {
+    public MovieResponseDTO(Object movie) {
         this.results = movie;
     }
 
