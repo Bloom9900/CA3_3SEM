@@ -26,6 +26,9 @@ This ensures that our token does not change signature upon development, meaning 
 The Java class, SetupTestUsers is specified as .gitignore, to makes ure we don't push the users and passwords up to Github. 
 Therefore, the class needs to be created manually, if not already done. 
 
+- We have a class where we store all of our keys, which we consider as "secret", and therefore do not want to push on Github. 
+The class is located in utils.Keys.java, and we have put a .gitignore to ensure it does not get pushed up.
+
 -- Our endpoint links with role restrictions too:
 responseFromExternalServersParallel(): api/servicepoints/servicepoints
 getMovieReview(): api/movie/review (user role ONLY)
