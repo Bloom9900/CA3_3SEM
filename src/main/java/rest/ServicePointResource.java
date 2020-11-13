@@ -28,7 +28,6 @@ import utils.Helper;
 import utils.HttpUtils;
 import utils.Keys;
 
-//Todo Remove or change relevant parts before ACTUAL use
 @Path("servicepoints")
 public class ServicePointResource {
 
@@ -57,7 +56,6 @@ public class ServicePointResource {
     }
     
     public static String responseFromExternalServersParallel(ExecutorService threadPool, AddressRequestDTO adresse) throws InterruptedException, ExecutionException, TimeoutException {
-        // String variable = adresse.getVariable();
         String city = adresse.getCity();
         String postalCode = adresse.getPostalCode();
         String streetName = adresse.getStreetName();
@@ -66,8 +64,8 @@ public class ServicePointResource {
         Callable<PostnordResponseDTO> postnordTask = new Callable<PostnordResponseDTO>() {
             @Override
             public PostnordResponseDTO call() throws IOException {
-                String fullURL = (postnordURL + "findNearestByAddress.json?apikey=" + Keys.postNordKey + "&countryCode=DK&agreementCountry=DK&city=" + helper.removeSpaces(city)
-                + "&postalCode=" + helper.removeSpaces(postalCode) + "&streetName=" + helper.removeSpaces(streetName) + "&streetNumber=" + helper.removeSpaces(streetNumber));
+                String fullURL = (postnordURL + "findNearestByAddress.json?apikey=" + Keys.postNordKey + "&countryCode=DK&agreementCountry=DK&city=" + helper.fixInput(city)
+                + "&postalCode=" + helper.fixInput(postalCode) + "&streetName=" + helper.fixInput(streetName) + "&streetNumber=" + helper.fixInput(streetNumber));
                 String postnord = HttpUtils.fetchData(fullURL);
                 PostnordResponseDTO postnordDTO = gson.fromJson(postnord, PostnordResponseDTO.class);
                 return postnordDTO;

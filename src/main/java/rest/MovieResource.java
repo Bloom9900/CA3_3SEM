@@ -46,9 +46,8 @@ public class MovieResource {
     @RolesAllowed({"user"})
     public String getMovieReview(String movieJSON) throws IOException {
         MovieRequestDTO temp = gson.fromJson(movieJSON, MovieRequestDTO.class);
-        String movie = HttpUtils.fetchData(movieURL + "?query=" + temp.getQuery() + "&api-key=" + Keys.movieKey);
+        String movie = HttpUtils.fetchData(movieURL + "?query=" + helper.fixInput(temp.getQuery()) + "&api-key=" + Keys.movieKey);
         MovieResponseDTO movieDTO = gson.fromJson(movie, MovieResponseDTO.class);
-        System.out.println("TEST" + movieJSON);
         return gson.toJson(movieDTO);
     }
 }
