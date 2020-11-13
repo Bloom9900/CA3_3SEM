@@ -14,4 +14,11 @@ public class PostnordDTO {
     public void setServicePointInformationResponse(Object servicePointInformationResponse) {
         this.servicePointInformationResponse = servicePointInformationResponse;
     }
+
+    @Override
+    public String toString() {
+        return "{" + "servicePointInformationResponse=" + servicePointInformationResponse + '}';
+    }
+    
+    
 }

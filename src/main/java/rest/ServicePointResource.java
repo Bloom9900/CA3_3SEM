@@ -51,7 +51,6 @@ public class ServicePointResource {
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    @RolesAllowed({"user", "admin"})
     public String getTest(String address) throws IOException, InterruptedException, ExecutionException, TimeoutException {
         AdresseDTO adresse = gson.fromJson(address, AdresseDTO.class);
         return responseFromExternalServersParallel(es, adresse);
@@ -91,6 +90,7 @@ public class ServicePointResource {
         
         ServicePointsDTO combinedDTO = new ServicePointsDTO(postnord, weather);
         String combinedJSON = gson.toJson(combinedDTO);
+        
         return combinedJSON;
     }
   

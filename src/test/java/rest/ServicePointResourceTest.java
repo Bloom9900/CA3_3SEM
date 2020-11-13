@@ -2,13 +2,19 @@ package rest;
 
 import dto.AdresseDTO;
 import dto.PostnordDTO;
-import entities.RenameMe;
+import dto.WeatherDTO;
 import utils.EMF_Creator;
+import rest.ServicePointResource;
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.given;
+import io.restassured.http.ContentType;
 import io.restassured.parsing.Parser;
 import java.net.URI;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeoutException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.core.UriBuilder;
@@ -19,31 +25,35 @@ import org.glassfish.jersey.server.ResourceConfig;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import org.junit.jupiter.api.AfterAll;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 //Uncomment the line below, to temporarily disable this test
-@Disabled
+//@Disabled
 
-public class ServicePointResourceTest {
+public class ServicePointResourceTest 
+{
 
     private static final int SERVER_PORT = 7777;
     private static final String SERVER_URL = "http://localhost/api";
-    private static RenameMe r1, r2;
-    private static AdresseDTO addressDTO = new AdresseDTO("Frederiksberg", "2000", "Smallegade", "1");
+    private static AdresseDTO addressDTO = new AdresseDTO("Herlev", "2730", "Kamdalen", "21");
+    private static final ExecutorService es = Executors.newCachedThreadPool();
 
     static final URI BASE_URI = UriBuilder.fromUri(SERVER_URL).port(SERVER_PORT).build();
     private static HttpServer httpServer;
     private static EntityManagerFactory emf;
 
-    static HttpServer startServer() {
+    static HttpServer startServer() 
+    {
         ResourceConfig rc = ResourceConfig.forApplication(new ApplicationConfig());
         return GrizzlyHttpServerFactory.createHttpServer(BASE_URI, rc);
     }
 
     @BeforeAll
-    public static void setUpClass() {
+    public static void setUpClass() 
+    {
         //This method must be called before you request the EntityManagerFactory
         EMF_Creator.startREST_TestWithDB();
         emf = EMF_Creator.createEntityManagerFactoryForTest();
@@ -56,7 +66,8 @@ public class ServicePointResourceTest {
     }
 
     @AfterAll
-    public static void closeTestServer() {
+    public static void closeTestServer() 
+    {
         //System.in.read();
 
         //Don't forget this, if you called its counterpart in @BeforeAll
@@ -64,52 +75,47 @@ public class ServicePointResourceTest {
         httpServer.shutdownNow();
     }
 
-    // Setup the DataBase (used by the test-server and this test) in a known state BEFORE EACH TEST
-    //TODO -- Make sure to change the EntityClass used below to use YOUR OWN (renamed) Entity class
-    @BeforeEach
-    public void setUp() {
-        EntityManager em = emf.createEntityManager();
-        try {
-            /*em.getTransaction().begin();
-            em.createNamedQuery("RenameMe.deleteAllRows").executeUpdate();
-            em.persist(r1);
-            em.persist(r2);
-            em.getTransaction().commit();*/
-        } finally {
-            em.close();
-        }
-    }
-
     @Test
     public void testServerIsUp() {
-        given().when().get("/xxx").then().statusCode(200);
+        given().when().get("/servicepoints").then().statusCode(200);
     }
 
     //This test assumes the database contains two rows
     @Test
-    public void testDummyMsg() throws Exception {
+    public void testDummyMsg() throws Exception 
+    {
         given()
                 .contentType("application/json")
-                .get("/xxx/").then()
+                .get("/servicepoints").then()
                 .assertThat()
                 .statusCode(HttpStatus.OK_200.getStatusCode())
                 .body("msg", equalTo("Hello World"));
     }
-
+    
     @Test
-    public void testCount() throws Exception {
-        given()
-                .contentType("application/json")
-                .get("/xxx/count").then()
-                .assertThat()
-                .statusCode(HttpStatus.OK_200.getStatusCode())
-                .body("count", equalTo(2));
+    public void responseFromExternalServersParallelTest() throws InterruptedException, ExecutionException, TimeoutException 
+    {
+        String expectedServicepoints = "\"servicePoints\":";
+        String expectedWeather = "\"weather\": {";
+        String result = ServicePointResource.responseFromExternalServersParallel(es, addressDTO);
+        boolean isExpectedLikeResult = (result.contains(expectedServicepoints) && result.contains(expectedWeather));
+        
+        assertTrue(isExpectedLikeResult);
     }
     
-    @Disabled
     @Test
-    public String testResponseFromExternalServersParallel() {
-        
-        return "todo";
+    public void servicepointsTest() {
+        String json = String.format
+        (
+                "{city: \"%s\", postalCode: \"%s\", streetName: \"%s\", streetNumber: \"%s\"}"
+                , addressDTO.getCity(), addressDTO.getPostalCode(), addressDTO.getStreetName(), addressDTO.getStreetNumber()
+        );
+        given()
+                .contentType("application/json")
+                .accept(ContentType.JSON)
+                .body(json)
+                .when().post("/servicepoints/servicepoints")
+                .then()
+                .statusCode(200);
     }
 }
